@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane id="scrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1325.0" stylesheets="@../styles/Main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.MainController">
+   <content>
+      <AnchorPane prefHeight="700.0" prefWidth="1325.0">
+         <children>
+            <ToolBar id="toolbar" layoutY="-1.0" prefHeight="77.0" prefWidth="1311.0">
+               <items>
+                  <ImageView fitHeight="58.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                     <image>
+                        <Image url="@../images/Logo3.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="title" prefHeight="27.0" prefWidth="310.0" text="cheduling Application" textFill="WHITE" translateX="10.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font></Label>
+                  <Label fx:id="customers" onMouseClicked="#manageCustomer" prefHeight="20.0" prefWidth="105.0" text="Customers" textFill="WHITE" translateX="350.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></Label>
+                  <Label fx:id="calendar" onMouseClicked="#manageCalendar" prefHeight="20.0" prefWidth="105.0" text="Calendar" textFill="WHITE" translateX="350.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></Label>
+                  <Label fx:id="appointment" onMouseClicked="#manageApt" prefHeight="20.0" prefWidth="180.0" text="Manage Appointments" textFill="WHITE" translateX="350.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></Label>
+                  <MenuButton fx:id="userOptions" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" translateX="400.0">
+                    <items>
+                      <MenuItem fx:id="profile" mnemonicParsing="false" onAction="#manageProfile" text="Profile" />
+                      <MenuItem fx:id="signOut" mnemonicParsing="false" onAction="#signOut" text="SignOut" />
+                    </items>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MenuButton>
+               </items>
+            </ToolBar>
+            <TabPane fx:id="tabPane" layoutX="-1.0" layoutY="74.0" prefHeight="612.0" prefWidth="1311.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="tab1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="343.0" prefWidth="1311.0">
+                           <children>
+                              <TableView fx:id="custTable" layoutX="41.0" layoutY="52.0" prefHeight="509.0" prefWidth="908.0">
+                                <columns>
+                                  <TableColumn fx:id="custIDCol" prefWidth="153.0" text="Customer ID" />
+                                  <TableColumn fx:id="custNameCol" minWidth="0.0" prefWidth="150.0" text="Customer Name" />
+                                    <TableColumn fx:id="custAddressCol" minWidth="0.0" prefWidth="175.0" text="Address" />
+                                    <TableColumn fx:id="custPostalCol" prefWidth="105.0" text="Postal Code" />
+                                    <TableColumn fx:id="custPhoneCol" prefWidth="105.0" text="Phone Number" />
+                                    <TableColumn fx:id="custCityCol" prefWidth="94.0" text="City" />
+                                    <TableColumn fx:id="custCountryCol" prefWidth="125.0" text="Country" />
+                                </columns>
+                              </TableView>
+                              <Button id="go" fx:id="addCust" layoutX="990.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#addCustomer" prefHeight="60.0" prefWidth="115.0" text="Add Customer">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Button id="go" fx:id="modCust" layoutX="1150.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#modifyCustomer" prefHeight="60.0" prefWidth="115.0" text="Modify Customer">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Button id="go" fx:id="deleteCust" layoutX="990.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#deleteCustomer" prefHeight="60.0" prefWidth="115.0" text="Delete Customer" wrapText="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Button id="go" fx:id="detailsCust" layoutX="1150.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#getDetails" prefHeight="60.0" prefWidth="115.0" text="Customer Details" textAlignment="CENTER" wrapText="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Label fx:id="search" layoutX="14.0" layoutY="10.0" prefHeight="27.0" prefWidth="85.0" text="Search">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="searchField" layoutX="100.0" layoutY="12.0" maxWidth="199.0" onAction="#searchCustomer" prefHeight="23.0" prefWidth="143.0" />
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="tab2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ToolBar id="bar1" layoutX="64.0" layoutY="66.0" prefHeight="40.0" prefWidth="677.0">
+                                 <items>
+                                    <Label fx:id="sunday" prefHeight="17.0" prefWidth="87.0" text="Sunday " />
+                                    <Label fx:id="monday" prefHeight="17.0" prefWidth="89.0" text="Monday" />
+                                    <Label fx:id="tuesday" prefHeight="17.0" prefWidth="93.0" text="Tuesday" />
+                                    <Label fx:id="wednesday" prefHeight="17.0" prefWidth="94.0" text="Wednesday" />
+                                    <Label fx:id="thursday" prefWidth="92.0" text="Thursday" />
+                                    <Label fx:id="friday" prefWidth="94.0" text="Friday" />
+                                    <Label fx:id="saturday" prefWidth="87.0" text="Saturday" />
+                                 </items>
+                              </ToolBar>
+                              <ToolBar id="bar2" layoutX="65.0" layoutY="26.0" prefHeight="40.0" prefWidth="675.0">
+                                 <items>
+                                    <Label fx:id="calendarMonth" prefHeight="27.0" prefWidth="625.0" text="Month">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font></Label>
+                                    <Label fx:id="previous" text="&lt;">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <Label fx:id="next" text="&gt;">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                 </items>
+                              </ToolBar>
+                              <AnchorPane fx:id="calendarPane" layoutX="65.0" layoutY="106.0" prefHeight="450.0" prefWidth="675.0" />
+                              <TableView fx:id="calendarTable" layoutX="784.0" layoutY="66.0" prefHeight="492.0" prefWidth="500.0">
+                                <columns>
+                                  <TableColumn fx:id="calendarCol" prefWidth="500.0" />
+                                </columns>
+                              </TableView>
+                              <Label fx:id="viewByMonth" layoutX="785.0" layoutY="20.0" onMouseClicked="#switchToMonthlyView" prefHeight="40.0" prefWidth="200.0" text="View the Calendar by Month">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                              <Label fx:id="viewByWeek" layoutX="1035.0" layoutY="20.0" onMouseClicked="#switchToWeeklyView" prefHeight="40.0" prefWidth="200.0" text="View the Calendar by week">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab fx:id="tab3">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TabPane layoutX="14.0" layoutY="26.0" prefHeight="550.0" prefWidth="1284.0" tabClosingPolicy="UNAVAILABLE">
+                                <tabs>
+                                  <Tab fx:id="appointmentTab" text="Appointments">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <TabPane layoutY="12.0" prefHeight="511.0" prefWidth="1288.0" tabClosingPolicy="UNAVAILABLE">
+                                                  <tabs>
+                                                    <Tab fx:id="upcomingTab" text="Upcoming">
+                                                      <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Label fx:id="search1" layoutX="14.0" layoutY="28.0" prefHeight="30.0" prefWidth="85.0" text="Search" />
+                                                                  <TextField fx:id="searchFieldApt" layoutX="100.0" layoutY="32.0" onAction="#searchUpcoming" prefHeight="21.0" prefWidth="143.0" />
+                                                                  <TableView fx:id="aptTable" layoutX="25.0" layoutY="71.0" prefHeight="364.0" prefWidth="866.0">
+                                                                    <columns>
+                                                                      <TableColumn fx:id="staffCol" prefWidth="110.0" text="Staff" />
+                                                                      <TableColumn fx:id="startTimeCol" prefWidth="110.0" text="Start Time" />
+                                                                        <TableColumn fx:id="endTimeCol" minWidth="0.0" prefWidth="135.0" text="End Time" />
+                                                                        <TableColumn fx:id="startDateCol" prefWidth="103.0" text="Start Date" />
+                                                                        <TableColumn fx:id="locationCol" prefWidth="135.0" text="Location" />
+                                                                        <TableColumn fx:id="contactCol" prefWidth="102.0" text="Contact" />
+                                                                        <TableColumn fx:id="typeCol" prefWidth="170.0" text="Type" />
+                                                                    </columns>
+                                                                  </TableView>
+                                                                  <Button id="go" fx:id="checkedInButton" layoutX="320.0" layoutY="29.0" mnemonicParsing="false" onAction="#checkedIn" text="Checked In">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                                  <Button id="stop" fx:id="cancelledButton" layoutX="415.0" layoutY="29.0" mnemonicParsing="false" onAction="#cancelled" text="Cancelled">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                                  <Button fx:id="absentButton" layoutX="500.0" layoutY="29.0" mnemonicParsing="false" onAction="#absent" text="Absent">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                                  <Button id="go" fx:id="createApt" layoutX="950.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#createAppointment" prefHeight="50.0" prefWidth="135.0" text="Create Appointment" wrapText="true">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                                  <Button id="go" fx:id="updateApt" layoutX="1130.0" layoutY="145.0" mnemonicParsing="false" onMouseClicked="#updateAppointment" prefHeight="50.0" prefWidth="135.0" text="Update Appointment" wrapText="true">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                                  <Button id="go" fx:id="removeApt" layoutX="950.0" layoutY="276.0" mnemonicParsing="false" onMouseClicked="#removeAppointment" prefHeight="50.0" prefWidth="135.0" text="Remove Appointment" wrapText="true">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                                  <Button id="go" fx:id="detailsApt" layoutX="1130.0" layoutY="276.0" mnemonicParsing="false" onMouseClicked="#getAptDetails" prefHeight="50.0" prefWidth="135.0" text="Appointment Details" wrapText="true">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                               </children>
+                                                            </AnchorPane>
+                                                      </content>
+                                                    </Tab>
+                                                    <Tab fx:id="inTab" text="Checked In">
+                                                      <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Label fx:id="search2" layoutX="14.0" layoutY="28.0" prefHeight="29.0" prefWidth="59.0" text="Search" />
+                                                                  <TextField fx:id="searchFieldIn" layoutX="74.0" layoutY="32.0" onAction="#searchCheckedIn" prefHeight="21.0" prefWidth="143.0" />
+                                                                  <TableView fx:id="inTable" layoutX="25.0" layoutY="71.0" prefHeight="364.0" prefWidth="866.0">
+                                                                    <columns>
+                                                                      <TableColumn fx:id="staffCol2" prefWidth="110.0" text="Staff" />
+                                                                      <TableColumn fx:id="startTimeCol2" prefWidth="110.0" text="Start Time" />
+                                                                        <TableColumn fx:id="endTimeCol2" prefWidth="135.0" text="End Time" />
+                                                                        <TableColumn fx:id="startDateCol2" prefWidth="103.0" text="Start Date" />
+                                                                        <TableColumn fx:id="locationCol2" prefWidth="135.0" text="Location" />
+                                                                        <TableColumn fx:id="contactCol2" prefWidth="102.0" text="Contact" />
+                                                                        <TableColumn fx:id="typeCol2" prefWidth="170.0" text="Type" />
+                                                                    </columns>
+                                                                  </TableView>
+                                                                  <Button id="go" fx:id="detailsAptIn" layoutX="1000.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#getCheckedInAptDetails" prefHeight="50.0" prefWidth="135.0" text="Appointment Details" wrapText="true" />
+                                                               </children>
+                                                            </AnchorPane>
+                                                      </content>
+                                                    </Tab>
+                                                      <Tab fx:id="cancelledTab" text="Cancelled">
+                                                        <content>
+                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Label fx:id="search3" layoutX="14.0" layoutY="28.0" prefHeight="30.0" prefWidth="60.0" text="Search" />
+                                                                  <TextField fx:id="searchFieldCancel" layoutX="74.0" layoutY="32.0" onAction="#searchCancelled" prefHeight="21.0" prefWidth="143.0" />
+                                                                  <TableView fx:id="cancelTable" layoutX="25.0" layoutY="71.0" prefHeight="364.0" prefWidth="866.0">
+                                                                    <columns>
+                                                                      <TableColumn fx:id="staffCol3" prefWidth="110.0" text="Staff" />
+                                                                      <TableColumn fx:id="startTimeCol3" prefWidth="110.0" text="Start Time" />
+                                                                        <TableColumn fx:id="endTimeCol3" prefWidth="135.0" text="End Time" />
+                                                                        <TableColumn fx:id="startDateCol3" prefWidth="103.0" text="Start Date" />
+                                                                        <TableColumn fx:id="locationCol3" prefWidth="135.0" text="Location" />
+                                                                        <TableColumn fx:id="contactCol3" prefWidth="102.0" text="Contact" />
+                                                                        <TableColumn fx:id="typeCol3" prefWidth="170.0" text="Type" />
+                                                                    </columns>
+                                                                  </TableView>
+                                                                  <Button id="go" fx:id="detailsAptCancelled" layoutX="1000.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#getCancelledAptDetails" prefHeight="50.0" prefWidth="135.0" text="Appointment Details" wrapText="true" />
+                                                               </children>
+                                                            </AnchorPane>
+                                                        </content>
+                                                      </Tab>
+                                                      <Tab fx:id="absentTab" text="Absent">
+                                                        <content>
+                                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Label fx:id="search4" layoutX="14.0" layoutY="28.0" prefHeight="30.0" prefWidth="60.0" text="Search" />
+                                                                  <TextField fx:id="searchFieldAbsent" layoutX="74.0" layoutY="32.0" onAction="#searchAbsent" prefHeight="21.0" prefWidth="143.0" />
+                                                                  <TableView fx:id="absentTable" layoutX="25.0" layoutY="71.0" prefHeight="364.0" prefWidth="866.0">
+                                                                    <columns>
+                                                                      <TableColumn fx:id="staffCol4" prefWidth="110.0" text="Staff" />
+                                                                      <TableColumn fx:id="startTimeCol4" prefWidth="110.0" text="Start Time" />
+                                                                        <TableColumn fx:id="endTimeCol4" prefWidth="135.0" text="End Time" />
+                                                                        <TableColumn fx:id="startDateCol4" prefWidth="103.0" text="Start Date" />
+                                                                        <TableColumn fx:id="locationCol4" prefWidth="135.0" text="Location" />
+                                                                        <TableColumn fx:id="contactCol4" prefWidth="102.0" text="Contact" />
+                                                                        <TableColumn fx:id="typeCol4" prefWidth="170.0" text="Type" />
+                                                                    </columns>
+                                                                  </TableView>
+                                                                  <Button id="go" fx:id="detailsAptAbsent" layoutX="1000.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#getAbsentAptDetails" prefHeight="50.0" prefWidth="135.0" text="Appointment Details" wrapText="true" />
+                                                               </children>
+                                                            </AnchorPane>
+                                                        </content>
+                                                      </Tab>
+                                                  </tabs>
+                                                </TabPane>
+                                             </children>
+                                             <cursor>
+                                                <Cursor fx:constant="DEFAULT" />
+                                             </cursor>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab fx:id="reportsTab" text="Reports">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Button id="go" fx:id="generateA" layoutX="25.0" layoutY="90.0" mnemonicParsing="false" onMouseClicked="#appointmentTypeReport" prefHeight="60.0" prefWidth="125.0" text="Generate">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                                <Button id="go" fx:id="generateB" layoutX="25.0" layoutY="260.0" mnemonicParsing="false" onMouseClicked="#consultantScheduleReport" prefHeight="60.0" prefWidth="125.0" text="Generate">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                                <Button id="go" fx:id="generateC" layoutX="25.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#upcomingAppointmentsReport" prefHeight="60.0" prefWidth="125.0" text="Generate">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                                <Label fx:id="genrateType" layoutX="25.0" layoutY="40.0" prefHeight="40.0" prefWidth="370.0" text="Generate the Number of Appointment Types By Month">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="generateSchedule" layoutX="25.0" layoutY="210.0" prefHeight="40.0" prefWidth="270.0" text="Generate Each Consultant's Schedule">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="generateUpcoming" layoutX="25.0" layoutY="380.0" prefHeight="36.0" prefWidth="234.0" text="Genrate Upcoming Appointments">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextArea fx:id="reports" editable="false" layoutX="416.0" layoutY="50.0" prefHeight="443.0" prefWidth="621.0">
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </TextArea>
+                                             </children>
+                                          </AnchorPane>
+                                    </content>
+                                  </Tab>
+                                </tabs>
+                              </TabPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab fx:id="tab4">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TabPane id="profileTab" layoutX="42.0" layoutY="41.0" prefHeight="515.0" prefWidth="721.0" tabClosingPolicy="UNAVAILABLE">
+                                <tabs>
+                                  <Tab fx:id="tab5" text="User Name ">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="691.0">
+                                             <children>
+                                                <Label fx:id="profileID" layoutX="85.0" layoutY="125.0" prefHeight="40.0" prefWidth="165.0" text="User ID" textFill="#fffdfd">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="profileName" layoutX="85.0" layoutY="215.0" prefHeight="40.0" prefWidth="165.0" text="User Name" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <CheckBox fx:id="nameCheck" layoutX="85.0" layoutY="320.0" mnemonicParsing="false" onAction="#enableName" text="Change User Name" textFill="#fffefe" />
+                                                <TextField fx:id="profileIDF" disable="true" layoutX="268.0" layoutY="133.0" prefHeight="25.0" prefWidth="215.0" />
+                                                <TextField fx:id="profileNameF" disable="true" layoutX="268.0" layoutY="222.0" prefHeight="25.0" prefWidth="215.0" />
+                                                <Button id="go" fx:id="nameSave" layoutX="385.0" layoutY="336.0" mnemonicParsing="false" onAction="#saveUserName" prefHeight="55.0" prefWidth="100.0" text="Save">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                             </children></AnchorPane>
+                                    </content>
+                                  </Tab>
+                                  <Tab fx:id="tab6" text="Password">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Label fx:id="newPass" layoutX="85.0" layoutY="125.0" prefHeight="40.0" prefWidth="160.0" text="New Password" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="verifyPass" layoutX="85.0" layoutY="215.0" prefHeight="40.0" prefWidth="160.0" text="Verify Password" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <CheckBox fx:id="passCheck" layoutX="85.0" layoutY="320.0" mnemonicParsing="false" onAction="#enablePassword" text="Edit Password" textFill="WHITE" />
+                                                <Button id="go" fx:id="passSave" layoutX="385.0" layoutY="336.0" mnemonicParsing="false" onAction="#savePassword" prefHeight="55.0" prefWidth="100.0" text="Save">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                                <PasswordField fx:id="newPassF" disable="true" layoutX="268.0" layoutY="133.0" prefHeight="25.0" prefWidth="215.0" />
+                                                <PasswordField fx:id="verifyPassF" disable="true" layoutX="268.0" layoutY="222.0" prefWidth="215.0" />
+                                             </children></AnchorPane>
+                                    </content>
+                                  </Tab>
+                                    <Tab fx:id="tab7" text="Language">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                             <children>
+                                                <Label fx:id="selectLang" layoutX="48.0" layoutY="47.0" prefHeight="69.0" prefWidth="260.0" text="Select a Language" textFill="#fffdfd">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <RadioButton fx:id="english" layoutX="50.0" layoutY="170.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="English" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </RadioButton>
+                                                <RadioButton fx:id="spanish" layoutX="50.0" layoutY="250.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="Spanish" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </RadioButton>
+                                                <RadioButton fx:id="french" layoutX="50.0" layoutY="330.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="French" textFill="#fffbfb">
+                                                   <font>
+                                                      <Font name="System Bold" size="14.0" />
+                                                   </font>
+                                                </RadioButton>
+                                                <Button id="go" fx:id="saveLang" layoutX="230.0" layoutY="400.0" mnemonicParsing="false" onAction="#saveLanguage" prefHeight="50.0" prefWidth="100.0" text="Save">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </Button>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </Tab>
+                                </tabs>
+                              </TabPane>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

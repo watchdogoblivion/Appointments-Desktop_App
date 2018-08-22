@@ -1,0 +1,55 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 17, 2018, 8:12:57 PM
+    Author     : sj_sc
+*/
+
+.mainFxmlClass {
+.root {} /* I need the root for some reason or some of the css code wont work */
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+#scrollpane {-fx-background-color: blue;}
+#toolbar {-fx-background-color: blue;}
+#bar1{
+     -fx-border-color: black ;  
+     -fx-border-width: 1.5px ; 
+}
+
+#bar2{
+     -fx-background-color: white;
+}
+
+#go{
+    -fx-background-color: green;
+    -fx-border-color: black;
+    -fx-text-fill: white;
+}
+
+#stop{
+    -fx-background-color: red;
+    -fx-border-color: black;
+    -fx-text-fill: white;
+}
+
+.tab-header-background {
+    -fx-background-color: black;
+}
+.tab-pane { -fx-background-color: white;}
+.tab {-fx-background-color: black;}
+#profileTab {-fx-background-color: black;}
+#profileTab .tab { -fx-background-color: black; -fx-border-width: 20;}
+#profileTab .tab-header-background {-fx-background-color: blue;}
+
+
+
+
+}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="514.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.CreateAppointmentController">
+   <children>
+      <Label fx:id="createAppointment" layoutX="115.0" layoutY="14.0" prefHeight="43.0" prefWidth="194.0" text="  Create Appointment ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="aptIDLabel" layoutX="30.0" layoutY="80.0" text="Appointment ID">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custIDLabel" layoutX="30.0" layoutY="120.0" text="Customer ID">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="descriptionLabel" layoutX="30.0" layoutY="200.0" text="Description">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="locationLabel" layoutX="30.0" layoutY="240.0" text="Location">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="contactLabel" layoutX="30.0" layoutY="280.0" text="Contact">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="typeLabel" layoutX="30.0" layoutY="320.0" text="Type">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="startDateTimeLabel" layoutX="30.0" layoutY="360.0" text="Start Date and Time">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="endTimeLabel" layoutX="30.0" layoutY="400.0" text="End Time">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="AIDF" disable="true" layoutX="200.0" layoutY="80.0" prefHeight="25.0" prefWidth="235.0" />
+      <TextField fx:id="custIDF" layoutX="200.0" layoutY="120.0" prefWidth="235.0" />
+      <TextField fx:id="descriptionF" layoutX="200.0" layoutY="200.0" prefWidth="235.0" />
+      <TextField fx:id="contactF" layoutX="200.0" layoutY="280.0" prefWidth="235.0" />
+      <Button id="go" fx:id="saveBtn" layoutX="200.0" layoutY="455.0" mnemonicParsing="false" onAction="#save" prefHeight="45.0" prefWidth="93.0" stylesheets="@../styles/Main.css" text="Save">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button id="stop" fx:id="cancelBtn" layoutX="345.0" layoutY="455.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="45.0" prefWidth="93.0" stylesheets="@../styles/Main.css" text="Cancel">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <MenuButton fx:id="menuStartTime" layoutX="170.0" layoutY="360.0" mnemonicParsing="false" text="Select Time" />
+      <DatePicker fx:id="startDate" layoutX="305.0" layoutY="360.0" prefHeight="25.0" prefWidth="130.0" promptText="Select Date" />
+      <MenuButton fx:id="menuEndTime" layoutX="170.0" layoutY="400.0" mnemonicParsing="false" text="Select Time">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+      <MenuButton fx:id="menuLocation" layoutX="200.0" layoutY="240.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="235.0" text="Select Location" />
+      <Label fx:id="staffLabel" layoutX="30.0" layoutY="160.0" text="Staff">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="staffName" disable="true" layoutX="200.0" layoutY="160.0" prefHeight="25.0" prefWidth="235.0" />
+      <MenuButton fx:id="menuType" layoutX="200.0" layoutY="320.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="235.0" text="Select Appointment Type" />
+   </children>
+</AnchorPane>

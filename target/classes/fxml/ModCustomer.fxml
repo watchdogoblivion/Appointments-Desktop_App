@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.ModCustomerController">
+   <children>
+      <Label fx:id="modCustomer" layoutX="123.0" layoutY="23.0" prefHeight="42.0" prefWidth="238.0" text="      Modify Customer">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="custNameLabel" layoutX="35.0" layoutY="90.0" text="Customer Name">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custActivityLabel" layoutX="35.0" layoutY="130.0" text="Active">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custAddressLabel" layoutX="35.0" layoutY="170.0" text="Address">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custPostalLabel" layoutX="35.0" layoutY="210.0" text="Postal Code">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custPhoneLabel" layoutX="35.0" layoutY="250.0" text="Phone Number">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custCityLabel" layoutX="35.0" layoutY="290.0" text="City">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="custCountryLabel" layoutX="35.0" layoutY="330.0" text="Country">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button id="go" fx:id="saveBtn" layoutX="200.0" layoutY="383.0" mnemonicParsing="false" onAction="#save" prefHeight="42.0" prefWidth="90.0" stylesheets="@../styles/Main.css" text="Save">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button id="stop" fx:id="cancelBtn" layoutX="320.0" layoutY="383.0" mnemonicParsing="false" onMouseClicked="#cancel" prefHeight="42.0" prefWidth="90.0" stylesheets="@../styles/Main.css" text="Cancel">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <TextField fx:id="custNameF" layoutX="200.0" layoutY="90.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField fx:id="custAddressF" layoutX="200.0" layoutY="170.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField fx:id="custPostalF" layoutX="200.0" layoutY="210.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField fx:id="custPhoneF" layoutX="200.0" layoutY="250.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField fx:id="custCityF" layoutX="200.0" layoutY="290.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField fx:id="custCountryF" layoutX="200.0" layoutY="330.0" prefHeight="25.0" prefWidth="215.0" />
+      <MenuButton fx:id="activity" layoutX="200.0" layoutY="130.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="215.0" text="Select Activity" />
+   </children>
+</AnchorPane>

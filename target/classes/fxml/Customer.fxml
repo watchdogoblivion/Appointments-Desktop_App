@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.CustomerController">
+   <children>
+      <Label fx:id="custdetails" layoutX="106.0" layoutY="23.0" prefHeight="47.0" prefWidth="188.0" text="   Customer Details">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="custInfo" layoutX="41.0" layoutY="86.0" prefHeight="292.0" prefWidth="324.0" text="Label" />
+      <Button fx:id="closeBtn" layoutX="287.0" layoutY="388.0" mnemonicParsing="false" onMouseClicked="#close" prefHeight="40.0" prefWidth="72.0" text="Close" />
+   </children>
+</AnchorPane>

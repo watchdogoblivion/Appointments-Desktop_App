@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.AppointmentController">
+   <children>
+      <Label fx:id="aptDetails" layoutX="102.0" layoutY="25.0" prefHeight="44.0" prefWidth="211.0" text="  Appointment Details">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="aptInfo" layoutX="48.0" layoutY="72.0" prefHeight="309.0" prefWidth="302.0" text="Label" />
+      <Button fx:id="closeBtn" layoutX="287.0" layoutY="392.0" mnemonicParsing="false" onMouseClicked="#close" prefHeight="44.0" prefWidth="79.0" text="Close" />
+   </children>
+</AnchorPane>

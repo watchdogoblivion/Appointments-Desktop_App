@@ -1,0 +1,24 @@
+
+Samuel Johnson's Appointment Schedule:
+
+	Samuel Johnson has an appointment from 03:30 PM to 04:00 PM on Wednesday March 14 2018 at London England for Follow-Up with Derek Nguyen
+
+
+	Samuel Johnson has an appointment from 09:00 AM to 10:00 AM on Monday March 26 2018 at New York, New York for Follow-Up with Linda Ballard
+
+
+	Samuel Johnson has an appointment from 10:00 AM to 11:00 AM on Wednesday March 28 2018 at New York, New York for N/A with Linda Ballard
+
+
+	Samuel Johnson has an appointment from 10:00 AM to 11:00 AM on Thursday March 29 2018 at New York, New York for Introductory Meeting with Derek Nguyen
+
+
+Iram Kozak's Appointment Schedule:
+
+	Iram Kozak has an appointment from 10:00 AM to 10:30 AM on Monday April 02 2018 at New York, New York for Second Follow-Up with Linda Ballard
+
+
+Jemimah Powers's Appointment Schedule:
+
+	Jemimah Powers has an appointment from 02:00 PM to 02:30 PM on Friday March 23 2018 at Phoenix, Arizona for Second Follow-Up with Linda Ballard
+
