@@ -11,38 +11,70 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import samuel_dorilas.security.Database_Credentials;
 
 /**
  *
  * @author sj_sc
  */
 public class Login extends Application {
-    /*
-     static final String driver = "com.mysql.jdbc.Driver";
-     static final String db = "desktopscheduler";
-     static final String url = "jdbc:mysql://127.0.0.1/" + db;
-     static final String user = "root";
-     static final String pass = "password";
-    */
-    /*
-     static final String driver = "com.mysql.jdbc.Driver";
-     static final String db = "U04mIO";
-     static final String url = "jdbc:mysql://52.206.157.109/" + db;
-     static final String user = "U04mIO";
-     static final String pass = "53688284838";
-    */
 
-     static final String driver = Database_Credentials.driver;
-     static final String db = Database_Credentials.db;
-     static final String url = Database_Credentials.url;
-     static final String user = Database_Credentials.user;
-     static final String pass = Database_Credentials.pass;
+
+	 private static final String driver = Database_Credentials.getDriver();
+     private static final String db = Database_Credentials.getDb();
+     private static final String url = Database_Credentials.getUrl();
+     private static final String user = Database_Credentials.getUser();
+     private static final String pass = Database_Credentials.getPass();
     
-     static String userNameStored;
-     static int userIDStored;
-     static Locale LOCALE = new Locale("en");
+     private static String userNameStored;
+     private static int userIDStored;
+     private static Locale LOCALE = new Locale("en");
     
-    @Override
+    public static String getDriver() {
+		return driver;
+	}
+
+	public static String getDb() {
+		return db;
+	}
+
+	public static String getUrl() {
+		return url;
+	}
+
+	public static String getUser() {
+		return user;
+	}
+
+	public static String getPass() {
+		return pass;
+	}
+
+	public static Locale getLOCALE() {
+		return LOCALE;
+	}
+
+	public static void setLOCALE(Locale lOCALE) {
+		LOCALE = lOCALE;
+	}
+
+	public static String getUserNameStored() {
+		return userNameStored;
+	}
+
+	public static void setUserNameStored(String userNameStored) {
+		Login.userNameStored = userNameStored;
+	}
+
+	public static int getUserIDStored() {
+		return userIDStored;
+	}
+
+	public static void setUserIDStored(int userIDStored) {
+		Login.userIDStored = userIDStored;
+	}
+	
+	@Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginFXML.fxml"));
         Scene scene = new Scene(root);

@@ -5,5 +5,6 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore database credentials
-/src/main/java/samuel_dorilas/Database_Credentials.java
+/src/main/java/samuel_dorilas/security/Database_Credentials.java
 
+/target/

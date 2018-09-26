@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.AppointmentController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.controllers.AppointmentController">
    <children>
       <Label fx:id="aptDetails" layoutX="102.0" layoutY="25.0" prefHeight="44.0" prefWidth="211.0" text="  Appointment Details">
          <font>

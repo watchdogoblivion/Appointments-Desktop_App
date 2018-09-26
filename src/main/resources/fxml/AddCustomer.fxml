@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="475.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.AddCustomerController">
+<AnchorPane id="AnchorPane" prefHeight="475.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.controllers.AddCustomerController">
    <children>
       <Label fx:id="addCustomerLabel" layoutX="139.0" layoutY="25.0" prefHeight="36.0" prefWidth="195.0" text="  Add Customer">
          <font>

@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane id="scrollpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1325.0" stylesheets="@../styles/Main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.MainController">
+<ScrollPane id="scrollpane" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../styles/Main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="samuel_dorilas.controllers.MainController">
    <content>
       <AnchorPane prefHeight="700.0" prefWidth="1325.0">
          <children>
@@ -47,7 +47,7 @@
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor></Label>
-                  <MenuButton fx:id="userOptions" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" translateX="400.0">
+                  <MenuButton fx:id="userOptions" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" translateX="370.0" wrapText="true">
                     <items>
                       <MenuItem fx:id="profile" mnemonicParsing="false" onAction="#manageProfile" text="Profile" />
                       <MenuItem fx:id="signOut" mnemonicParsing="false" onAction="#signOut" text="SignOut" />
@@ -82,7 +82,7 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
-                              <Button id="go" fx:id="modCust" layoutX="1150.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#modifyCustomer" prefHeight="60.0" prefWidth="115.0" text="Modify Customer">
+                              <Button id="go" fx:id="modCust" layoutX="1150.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#modifyCustomer" prefHeight="60.0" prefWidth="115.0" text="Modify Customer" wrapText="true">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
