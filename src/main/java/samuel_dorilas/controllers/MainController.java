@@ -6,25 +6,12 @@
 package samuel_dorilas.controllers;
 
 
-import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -75,6 +62,10 @@ import samuel_dorilas.models.Customer;
 import samuel_dorilas.models.DatePane;
 import samuel_dorilas.models.NullSelection;
 import samuel_dorilas.models.TimePane;
+import samuel_dorilas.services.AppointmentDAOService;
+import samuel_dorilas.services.CustomerDAOService;
+import samuel_dorilas.services.ReportService;
+import samuel_dorilas.services.UserDAOService;
 import samuel_dorilas.views.MonthlyCalendarView;
 import samuel_dorilas.views.WeeklyCalendarView;
 
@@ -253,6 +244,11 @@ public class MainController implements Initializable {
     private DateTimeFormatter formatter2;
     private DateTimeFormatter formatter3;
     private DateTimeFormatter formatter4;
+    
+    UserDAOService uDAOS = new UserDAOService();
+    CustomerDAOService cDAOS = new CustomerDAOService();
+    AppointmentDAOService aDAOS = new AppointmentDAOService();
+	ReportService reportService = new ReportService();
     
     private void setLanguage(){
         
@@ -504,74 +500,17 @@ public class MainController implements Initializable {
     }
     @FXML 
     private void checkedIn(ActionEvent event){
-    if(!aptTable.getSelectionModel().isEmpty()){
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-        
-            int appointmentId = aptTable.getSelectionModel().getSelectedItem().getAptID();
-            String del = "DELETE FROM appointment WHERE appointmentId=" + appointmentId;
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, 
-                alert1, ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.YES){ 
-                Appointment.getInList().add(aptTable.getSelectionModel().getSelectedItem());
-                Appointment.getAptList().remove(aptTable.getSelectionModel().getSelectedItem()); 
-                alert.close();
-                stmt.executeUpdate(del);           
-            }
-        
-        }catch(SQLException e){e.printStackTrace();}
-    }
+    	aDAOS.checkIn(aptTable, alert1);
     }
      
     @FXML 
     private void cancelled(ActionEvent event){
-    if(!aptTable.getSelectionModel().isEmpty()){
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-        
-            int appointmentId = aptTable.getSelectionModel().getSelectedItem().getAptID();
-            String del = "DELETE FROM appointment WHERE appointmentId=" + appointmentId;
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, 
-                alert2, ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.YES){ 
-                Appointment.getCancelList().add(aptTable.getSelectionModel().getSelectedItem());
-                Appointment.getAptList().remove(aptTable.getSelectionModel().getSelectedItem()); 
-                alert.close();
-                stmt.executeUpdate(del);           
-            }
-        
-        }catch(SQLException e){e.printStackTrace();}
-    }
+    	aDAOS.cancelled(aptTable, alert2);
     }
      
     @FXML 
     private void absent(ActionEvent event){
-    if(!aptTable.getSelectionModel().isEmpty()){     
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-        
-            int appointmentId = aptTable.getSelectionModel().getSelectedItem().getAptID();
-            String del = "DELETE FROM appointment WHERE appointmentId=" + appointmentId;
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, 
-                alert3, ButtonType.YES, ButtonType.NO);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.YES){ 
-                Appointment.getAbsentList().add(aptTable.getSelectionModel().getSelectedItem());
-                Appointment.getAptList().remove(aptTable.getSelectionModel().getSelectedItem()); 
-                alert.close();
-                stmt.executeUpdate(del);           
-            }
-        
-        }catch(SQLException e){e.printStackTrace();}
-    }
+    	aDAOS.absent(aptTable, alert3);
     }
      
     @FXML 
@@ -685,121 +624,17 @@ public class MainController implements Initializable {
      
     @FXML
     private void deleteCustomer(MouseEvent m){
-        if(!custTable.getSelectionModel().isEmpty()){
-            try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-                Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-        
-                int customerId = custTable.getSelectionModel().getSelectedItem().getCustID();
-                int addressId = custTable.getSelectionModel().getSelectedItem().getAddressId();
-                int cityId = custTable.getSelectionModel().getSelectedItem().getCityId();
-                int countryId = custTable.getSelectionModel().getSelectedItem().getCountryId();
-        
-                String del = "DELETE FROM customer WHERE customerId=" + "'" + customerId +"'";
-                String del2 = "DELETE FROM address WHERE addressId=" + "'" + addressId +"'";
-                String del3 = "DELETE FROM city WHERE cityId=" + "'" + cityId +"'";
-                String del4 = "DELETE FROM country WHERE countryId=" + "'" + countryId +"'";
-        
-        
-                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, 
-                    alert4, ButtonType.YES, ButtonType.NO);
-                alert.showAndWait();
-                if (alert.getResult() == ButtonType.YES){ 
-                    custTable.getItems().removeAll(custTable.getSelectionModel().getSelectedItem()); 
-                    alert.close();
-                    stmt.executeUpdate(del);
-                    stmt.executeUpdate(del2);
-                    stmt.executeUpdate(del3);
-                    stmt.executeUpdate(del4);
-                } 
-            }catch(SQLException e){e.printStackTrace();}  
-        }
+        cDAOS.deleteCustomer(custTable, alert4);
     }
     
     @FXML
     private void removeAppointment(MouseEvent m){
-        if(!aptTable.getSelectionModel().isEmpty()){
-            try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-                Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-        
-                int appointmentId = aptTable.getSelectionModel().getSelectedItem().getAptID();
-                String del = "DELETE FROM appointment WHERE appointmentId=" + appointmentId;
-  
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, 
-                    alert5, ButtonType.YES, ButtonType.NO);
-                alert.showAndWait();
-                if (alert.getResult() == ButtonType.YES){ 
-                    aptTable.getItems().removeAll(aptTable.getSelectionModel().getSelectedItem()); 
-                    alert.close();
-                    stmt.executeUpdate(del);           
-                }
-            }catch(SQLException e){e.printStackTrace();}
-        }
+       aDAOS.removeAppointment(aptTable, alert5);
     }
     
-    private void populateCustomer(){
-        
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            String join ="SELECT * FROM "
-                    + "customer JOIN address ON customer.addressId = address.addressId JOIN city ON address.cityId = city.cityId "
-                    + "JOIN country ON city.countryId = country.countryId";
-            ResultSet rs =  stmt.executeQuery(join);
-            while(rs.next()) {
-            int id = rs.getInt("customerId");
-            String name = rs.getString("customerName");
-            int active = rs.getInt("active");
-            Timestamp custCreateDate = rs.getTimestamp("createDate");
-            String custCreatedBy = rs.getString("createdBy");
-            Timestamp custLastUpdate = rs.getTimestamp("lastUpdate");
-            String custLastUpdateBy = rs.getString("lastUpdateBy");
-            String address = rs.getString("address");
-            int addressId = rs.getInt("addressId");
-            String postal = rs.getString("postalCode");
-            String phone = rs.getString("phone");
-            String city = rs.getString("city");
-            int cityId = rs.getInt("cityId");
-            String country = rs.getString("country");
-            int countryId = rs.getInt("countryId");
-            Customer.getCustList().add(new Customer(id, name, active, custCreateDate, custCreatedBy, custLastUpdate, 
-                    custLastUpdateBy, address, addressId, postal, phone, city, cityId, country, countryId));
-        }
-        
-        }catch (SQLException e){e.printStackTrace();}
-    }
+ 
     
-    private void populateAppointment(){
-        
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            Statement stmt1 = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            ResultSet rs =  stmt.executeQuery("SELECT * FROM appointment");
-            ResultSet rs2 =  stmt1.executeQuery("SELECT customerName FROM customer "
-                    + "JOIN appointment ON customer.customerId = appointment.customerId");
-            while(rs.next() && rs2.next()) {
-            int aptId = rs.getInt("appointmentId");
-            int customerId = rs.getInt("customerId");
-            int userId = rs.getInt("userId");
-            String description = rs.getString("description");
-            String location = rs.getString("location");
-            String contact = rs.getString("contact");
-            String type = rs.getString("title");
-            LocalTime startTime = rs.getTimestamp("start").toLocalDateTime().toLocalTime();
-            LocalDate startDate = rs.getTimestamp("start").toLocalDateTime().toLocalDate();
-            LocalTime endTime = rs.getTimestamp("end").toLocalDateTime().toLocalTime();
-            Timestamp aptCreateDate = rs.getTimestamp("createDate");
-            String aptCreatedBy = rs.getString("createdBy");
-            Timestamp aptLastUpdate = rs.getTimestamp("lastUpdate");
-            String aptLastUpdateBy = rs.getString("lastUpdateBy");
-            String customerName = rs2.getString("customerName");
-            
-            Appointment.getAptList().add(new Appointment(aptId, customerId, userId, description, location, contact, 
-                    type, startTime, startDate, endTime, aptCreateDate, aptCreatedBy, aptLastUpdate, aptLastUpdateBy, customerName));
-        }
-        
-        }catch (SQLException e){e.printStackTrace();}
-    }
+
     
     private void setCalendarMonth(){
         calendarMonth.setText(currentDate.getMonth().getDisplayName(TextStyle.FULL, Login.getLOCALE()) + " " + currentDate.getYear()); 
@@ -1061,124 +896,17 @@ public class MainController implements Initializable {
     
     @FXML
     private void appointmentTypeReport(MouseEvent m) {
-        
-        ArrayList<String> months = new ArrayList<>();
-        String reportsText = "";
-        Month month = Month.JANUARY;
-        for (int j = 0; j < 12; j++) {
-            String monthLabel = "\n" + month.getDisplayName(TextStyle.FULL, Login.getLOCALE()) + ":";
-            String type1 = "\n\t" + introMeet + ":";
-            int one = 0;
-            String type2 = "\n\t" + followUp + ":";
-            int two = 0;
-            String type3 = "\n\t"+ secondFollowUp + ":";
-            int three = 0;
-            String type4 = "\n\tN/A:";
-            int four = 0;
-            for (Appointment apt: Appointment.getAptList()){
-                if(apt.getStartDate().getMonth().equals(month)){
-                    ArrayList <Appointment> appoint = new ArrayList<>();
-                    appoint.add(apt);
-                    for (Appointment ap: appoint){
-                        if(ap.getType().equalsIgnoreCase(introMeet)){
-                            one++;
-                        }else if(ap.getType().equalsIgnoreCase(followUp)){
-                            two++;
-                        }else if(ap.getType().equalsIgnoreCase(secondFollowUp)){
-                            three++;
-                        }else {
-                            four++;
-                        }
-                    }
-                }
-            }
-            type1 = type1.concat(" " + one);
-            type2 = type2.concat(" " + two);
-            type3 = type3.concat(" " + three);
-            type4 = type4.concat(" " + four);
-            //months.add(monthLabel.concat(type1+type2+type3+type4)); Does not lead to proper display
-            months.add(monthLabel); 
-            months.add(type1); months.add(type2);
-            months.add(type3); months.add(type4);
-            reportsText = reportsText.concat(monthLabel+type1+type2+type3+type4);
-            month = month.plus(1);
-            
-        }
-        try {
-            Path path = Paths.get(report1);
-            Files.write(path, months, StandardCharsets.UTF_8);
-        }catch (IOException e) {e.printStackTrace();}
-        reports.setText(reportsText);
-        //reports.setText(months.toString()); Does not Lead t proper Display
+    	reportService.appointmentTypeReport(introMeet, followUp, secondFollowUp, report1, reports);
     }
     
     @FXML
     private void consultantScheduleReport(MouseEvent m){
-        //Code for indefinte number of users
-        ArrayList<String> schedule = new ArrayList<>();
-        String reportsText = "";
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            ResultSet rs = stmt.executeQuery("SELECT userName, userId FROM user");
-            while(rs.next()){
-                int usersID = rs.getInt("userId");
-                String userName = "\n" + rs.getString("userName") + "'s " + aptSchedule + ":";
-                schedule.add(userName);
-                reportsText = reportsText.concat(userName);
-                for(Appointment apt: Appointment.getAptList()){
-                    if(apt.getUserID() == usersID){
-                        String mySchedule = "\n\t" +apt.toString3() + "\n";
-                        schedule.add(mySchedule);
-                        reportsText = reportsText.concat(mySchedule);
-                    }
-                }   
-            }
-        
-        }catch(SQLException e){e.printStackTrace();}
-        try {
-            Path path = Paths.get(report2);
-            Files.write(path, schedule, StandardCharsets.UTF_8);
-        }catch (IOException e) {e.printStackTrace();}
-        reports.setText(reportsText);
+    	reportService.consultantScheduleReport(aptSchedule, report2, reports);
     }
     
     @FXML
     private void upcomingAppointmentsReport(MouseEvent m){
-        //Code for indefinte number of users
-        ArrayList<String> upcoming = new ArrayList<>(50);
-        String reportsText = "";
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-        
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            ResultSet rs = stmt.executeQuery("SELECT userName, userId FROM user");
-            while(rs.next()){
-                int usersID = rs.getInt("userId");
-                String userName = "\n" + rs.getString("userName") + "'s "+ upcomingApts + ":";
-                upcoming.add(userName);
-                reportsText = reportsText.concat(userName);
-                int count = 0;
-                for(Appointment apt: Appointment.getAptList()){
-                    if(apt.getUserID() == usersID & apt.getStartDate().equals(LocalDate.now())){
-                        count++;
-                        String mySchedule = "\n\t" +apt.toString3() + "\n";
-                        upcoming.add(mySchedule);
-                        reportsText = reportsText.concat(mySchedule);
-                    }
-                }
-                if(count == 0){
-                    String none ="\n\t" + noUpcomingApts +"\n";
-                    upcoming.add(none);
-                    reportsText = reportsText.concat(none);
-                } 
-            }
-        
-        }catch(SQLException e){e.printStackTrace();}
-        try {
-            Path path = Paths.get(report3);
-            Files.write(path, upcoming, StandardCharsets.UTF_8);
-        }catch (IOException e) {e.printStackTrace();}
-        reports.setText(reportsText);
+    	reportService.upcomingAppointmentsReport(upcomingApts, noUpcomingApts, report3, reports);
     }
     
     private void loginAlert(){
@@ -1220,51 +948,11 @@ public class MainController implements Initializable {
     }
     
     @FXML private void saveUserName(ActionEvent a){
-        try(Connection conn = DriverManager.getConnection( Login.getUrl(),Login.getUser(),Login.getPass());){
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-           
-            stmt.executeUpdate("UPDATE user SET userName ='" + profileNameF.getText()
-            + "' WHERE userId =" + Login.getUserIDStored());
-            
-            Login.setUserNameStored(profileNameF.getText());
-            userOptions.setText(Login.getUserNameStored());
-            
-            Alert alert = new Alert(Alert.AlertType.NONE, 
-                alert10, ButtonType.OK);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.OK) {alert.close();}
-
-        }catch(SQLException e){e.printStackTrace();}
+    	uDAOS.saveUserName(profileNameF, userOptions, alert10);
     }
     
     @FXML private void savePassword(){
-        String password1 = newPassF.getText();
-        String password2 = verifyPassF.getText();
-        newPassF.clear();
-        verifyPassF.clear();
-        
-        if(password1.equals(password2)){
-            try(Connection conn = DriverManager.getConnection( Login.getUrl(),Login.getUser(),Login.getPass());){
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-           
-            stmt.executeUpdate("UPDATE user SET password ='" + password1
-            + "' WHERE userId =" + Login.getUserIDStored());
-            
-            Alert alert = new Alert(Alert.AlertType.NONE, 
-                alert11, ButtonType.OK);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.OK) {alert.close();}
-
-            }catch(SQLException e){
-                e.printStackTrace();
-            }
-        }else{
-           Alert alert = new Alert(Alert.AlertType.NONE, 
-                alert12, ButtonType.OK);
-            alert.showAndWait();
-            if (alert.getResult() == ButtonType.OK) {alert.close();} 
-        }
-        
+    	uDAOS.savePassword(newPassF, verifyPassF, alert11, alert12);
     }
     
     @FXML private void saveLanguage(){
@@ -1334,7 +1022,7 @@ public class MainController implements Initializable {
              custTable.refresh();
         });  
         
-        populateCustomer();
+        cDAOS.populateCustomer();
         custTable.setItems(Customer.getCustList());
         custTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         custTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -1395,7 +1083,7 @@ public class MainController implements Initializable {
              calendarList.clear(); calendarTable.refresh();
         });  
         
-        populateAppointment();
+        aDAOS.populateAppointment();
         Appointment.getAptList().sort(byDateTime);
         aptTable.setItems(Appointment.getAptList());
         aptTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

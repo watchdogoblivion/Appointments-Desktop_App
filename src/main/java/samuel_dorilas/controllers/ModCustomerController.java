@@ -7,13 +7,6 @@ package samuel_dorilas.controllers;
  */
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import samuel_dorilas.Login;
 import samuel_dorilas.models.Customer;
+import samuel_dorilas.services.CustomerDAOService;
 
 /**
  * FXML Controller class
@@ -53,12 +47,11 @@ public class ModCustomerController implements Initializable {
     @FXML private TextField custPhoneF;
     @FXML private TextField custCityF;
     @FXML private TextField custCountryF;
-    private final Instant now = Instant.now();
-    private final Timestamp lastUpdate =  Timestamp.from(now);
-    private final String lastUpdateBy = Login.getUserNameStored();
     private int active = 0;
     private String activeString ="";
     private String inActiveString = "";
+    
+    CustomerDAOService cDAOS = new CustomerDAOService();
     
    private void setLanguage(){
         
@@ -91,35 +84,8 @@ public class ModCustomerController implements Initializable {
                 active = 1;
             }
          
-         try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            
-            
-            
-            stmt.executeUpdate("UPDATE customer SET customerName =" + "'" + custNameF.getText() + 
-                    "', active ='" + active + "', lastUpdate ='" + lastUpdate + "', lastUpdateBy ='" +
-                    lastUpdateBy + "' WHERE customerId =" + Customer.getCustList().get(Customer.getCustIndex()).getCustID());
-            
-            stmt.executeUpdate("UPDATE address SET address =" + "'" + custAddressF.getText() + 
-                    "', postalCode ='" + custPostalF.getText() +
-                    "', phone ='" + custPhoneF.getText() + "', lastUpdate ='" + lastUpdate + "', lastUpdateBy ='" +
-                    lastUpdateBy + "' WHERE addressId =" + Customer.getCustList().get(Customer.getCustIndex()).getAddressId());
-            
-            stmt.executeUpdate("UPDATE city SET city =" + "'" + custCityF.getText() + 
-                    "', lastUpdate ='" + lastUpdate + "', lastUpdateBy ='" +
-                    lastUpdateBy + "' WHERE cityId =" + Customer.getCustList().get(Customer.getCustIndex()).getCityId());
-            
-            stmt.executeUpdate("UPDATE country SET country =" + "'" + custCountryF.getText() + 
-                    "', lastUpdate ='" + lastUpdate + "', lastUpdateBy ='" +
-                    lastUpdateBy + "' WHERE countryId =" + Customer.getCustList().get(Customer.getCustIndex()).getCountryId());
-            
-         }catch(SQLException s){ s.printStackTrace();}
-         Customer.getCustList().get(Customer.getCustIndex()).setDisplayed(custNameF.getText(), active, 
-                 lastUpdate, lastUpdateBy, custAddressF.getText(), custPostalF.getText(), custPhoneF.getText(), 
-                 custCityF.getText(), custCountryF.getText());
-         Customer.getCustList().add(0, new Customer()); Customer.getCustList().remove(0);  
-         // I couldnt find another way to trigger the listener i set on the list since it only 
-         //responds to adds and removes and not setters. It important in the refreshing of the table
+         cDAOS.modifyCustomer(active, custNameF.getText(), custAddressF.getText(), custPostalF.getText(),
+        		 custPhoneF.getText(), custCityF.getText(), custCountryF.getText());
          
          ((Stage)(cancelBtn.getScene().getWindow())).close();
     }

@@ -7,13 +7,7 @@ package samuel_dorilas.controllers;
 
 import java.io.InvalidObjectException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -35,21 +29,13 @@ import javafx.stage.Stage;
 import samuel_dorilas.Login;
 import samuel_dorilas.models.Appointment;
 import samuel_dorilas.models.Customer;
+import samuel_dorilas.services.AppointmentDAOService;
 
 /**
  * FXML Controller class
  *
  * @author sj_sc
  */
-
-class Overlap extends InvalidObjectException{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	Overlap(String s){super(s);}
-}
 public class CreateAppointmentController implements Initializable {
 
     @FXML private Label createAppointment;
@@ -62,7 +48,6 @@ public class CreateAppointmentController implements Initializable {
     @FXML private Label typeLabel;
     @FXML private Label startDateTimeLabel;
     @FXML private Label endTimeLabel;
-
     @FXML private Button cancelBtn;
     @FXML private Button saveBtn;
     @FXML private TextField AIDF;
@@ -72,72 +57,65 @@ public class CreateAppointmentController implements Initializable {
     @FXML private MenuButton menuLocation;
     @FXML private TextField contactF;
     @FXML private MenuButton menuType;
-    private String introMeet = "";
-    private String followUp = "";
-    private String secondFollowUp = "";
-    
     @FXML private MenuButton menuStartTime;
     @FXML private DatePicker startDate;
     @FXML private MenuButton menuEndTime;
+    private String introMeet = "";
+    private String followUp = "";
+    private String secondFollowUp = "";
     private LocalDate startDateData;
     private LocalTime startTimeData;
     private LocalTime endTimeData;
     private final DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("hh:mm a", Login.getLOCALE());
-    private int AID = 0;
     private final int userID = Login.getUserIDStored();
-    private final Instant now = Instant.now();
-    private final Timestamp aptCreateDate =  Timestamp.from(now);
-    private final Timestamp aptLastUpdate =  Timestamp.from(now);
     private Timestamp startDateTime;
     private Timestamp endDateTime;
     private final String aptCreatedBy = Login.getUserNameStored();
-    private final String aptLastUpdateBy = Login.getUserNameStored();
-    private String custName = "";
-    private Appointment appointment;
-    private final String url = "N/A";
     private String alert7 = "";
     private String alert8 = "";
     private String alert9 = "";
     
+    AppointmentDAOService aDAOS = new AppointmentDAOService();
+    
     private void setLanguage(){
         
-    ResourceBundle rb = ResourceBundle.getBundle("properties/Main", Login.getLOCALE());
-    
-    alert7 = rb.getString("alert7");
-    alert8 = rb.getString("alert8");
-    alert9 = rb.getString("alert9");
-    
-    createAppointment.setText(rb.getString("createApt"));
-    aptIDLabel.setText(rb.getString("appointmentID"));
-    custIDLabel.setText(rb.getString("customerID"));
-    staffLabel.setText(rb.getString("staff"));
-    descriptionLabel.setText(rb.getString("description"));
-    locationLabel.setText(rb.getString("location"));
-    contactLabel.setText(rb.getString("contact"));
-    typeLabel.setText(rb.getString("type"));
-    startDateTimeLabel.setText(rb.getString("startDateAndTime"));
-    endTimeLabel.setText(rb.getString("endTime"));
-    
-    introMeet = rb.getString("introMeet");
-    followUp = rb.getString("followUp");
-    secondFollowUp = rb.getString("secondFollowUp");
-    
-    menuLocation.setText(rb.getString("selectLocation"));
-    menuType.setText(rb.getString("selectAptType"));
-    menuStartTime.setText(rb.getString("selectTime"));
-    startDate.setPromptText(rb.getString("selectDate"));
-    menuEndTime.setText(rb.getString("selectTime"));
-    saveBtn.setText(rb.getString("save"));
-    cancelBtn.setText(rb.getString("cancel"));
-    
-           saveBtn.disableProperty().bind((custIDF.textProperty().isEqualTo(""))
-                .or(descriptionF.textProperty().isEqualTo(""))
-                .or(menuLocation.textProperty().isEqualTo(rb.getString("selectLocation")))
-                .or(contactF.textProperty().isEqualTo(""))
-                .or(menuType.textProperty().isEqualTo(rb.getString("selectAptType")))
-                .or(menuStartTime.textProperty().isEqualTo(rb.getString("selectTime")))
-                .or(startDate.editorProperty().getValue().textProperty().isEqualTo(""))//.getEditor().textProperty().isEqualTo("")) either works
-                .or(menuEndTime.textProperty().isEqualTo(rb.getString("selectTime"))));
+	    ResourceBundle rb = ResourceBundle.getBundle("properties/Main", Login.getLOCALE());
+	    
+	    alert7 = rb.getString("alert7");
+	    alert8 = rb.getString("alert8");
+	    alert9 = rb.getString("alert9");
+	    
+	    createAppointment.setText(rb.getString("createApt"));
+	    aptIDLabel.setText(rb.getString("appointmentID"));
+	    custIDLabel.setText(rb.getString("customerID"));
+	    staffLabel.setText(rb.getString("staff"));
+	    descriptionLabel.setText(rb.getString("description"));
+	    locationLabel.setText(rb.getString("location"));
+	    contactLabel.setText(rb.getString("contact"));
+	    typeLabel.setText(rb.getString("type"));
+	    startDateTimeLabel.setText(rb.getString("startDateAndTime"));
+	    endTimeLabel.setText(rb.getString("endTime"));
+	    
+	    introMeet = rb.getString("introMeet");
+	    followUp = rb.getString("followUp");
+	    secondFollowUp = rb.getString("secondFollowUp");
+	    
+	    menuLocation.setText(rb.getString("selectLocation"));
+	    menuType.setText(rb.getString("selectAptType"));
+	    menuStartTime.setText(rb.getString("selectTime"));
+	    startDate.setPromptText(rb.getString("selectDate"));
+	    menuEndTime.setText(rb.getString("selectTime"));
+	    saveBtn.setText(rb.getString("save"));
+	    cancelBtn.setText(rb.getString("cancel"));
+	    
+	           saveBtn.disableProperty().bind((custIDF.textProperty().isEqualTo(""))
+	                .or(descriptionF.textProperty().isEqualTo(""))
+	                .or(menuLocation.textProperty().isEqualTo(rb.getString("selectLocation")))
+	                .or(contactF.textProperty().isEqualTo(""))
+	                .or(menuType.textProperty().isEqualTo(rb.getString("selectAptType")))
+	                .or(menuStartTime.textProperty().isEqualTo(rb.getString("selectTime")))
+	                .or(startDate.editorProperty().getValue().textProperty().isEqualTo(""))//.getEditor().textProperty().isEqualTo("")) either works
+	                .or(menuEndTime.textProperty().isEqualTo(rb.getString("selectTime"))));
     }
     
     @FXML private void cancel(MouseEvent m){
@@ -194,31 +172,9 @@ public class CreateAppointmentController implements Initializable {
                         throw new Overlap("The ending time overlaps with other appointments");
                     }
                 }
-                try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-                    Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-                    ResultSet rs =  stmt.executeQuery("SELECT appointmentId FROM appointment");
-            
-                    while(rs.next()){
-                        if(rs.getInt("appointmentId") == AID){
-                            AID++;
-                        }
-                    }
-                
-                    ResultSet rs1 = stmt.executeQuery("SELECT customerName FROM customer WHERE customerId=" + custIDF.getText());
-                    rs1.next();
-                    custName = rs1.getString("customerName");
-                
-                    stmt.executeUpdate("INSERT INTO appointment VALUES (" +  AID + ", " +
-                        custIDF.getText() + ", '" + menuType.getText() + "', '" + descriptionF.getText() + "', '" + menuLocation.getText() + "', '" + 
-                        contactF.getText() + "', '" + url + "', '" + startDateTime + "', '" + endDateTime + "', '" +  aptCreateDate + "', '" +
-                        aptCreatedBy + "', '" + aptLastUpdate + "', '" + aptLastUpdateBy + "', " + userID + ")");
-
-                    appointment = new Appointment(AID, Integer.parseInt(custIDF.getText()), userID, descriptionF.getText(), menuLocation.getText(),
-                        contactF.getText(), menuType.getText(), startTimeData, startDateData, endTimeData,
-                        aptCreateDate, aptCreatedBy, aptLastUpdate, aptLastUpdateBy, custName);
-                    Appointment.getAptList().add(appointment);
-                 
-                }catch (SQLException s){ s.printStackTrace(); }
+                aDAOS.createAppointment(startDateData, startTimeData, endTimeData, startDateTime, endDateTime,
+            			custIDF.getText(), menuType.getText(), descriptionF.getText(), menuLocation.getText(),
+            			contactF.getText());
 
                 ((Stage)(cancelBtn.getScene().getWindow())).close();
             }catch(IndexOutOfBoundsException n){
@@ -248,6 +204,7 @@ public class CreateAppointmentController implements Initializable {
                 }
         }
     }
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -301,3 +258,11 @@ public class CreateAppointmentController implements Initializable {
     
 }
 
+class Overlap extends InvalidObjectException{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	Overlap(String s){super(s);}
+}

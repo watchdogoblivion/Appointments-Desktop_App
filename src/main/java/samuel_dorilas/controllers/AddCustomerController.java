@@ -6,13 +6,6 @@
 package samuel_dorilas.controllers;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import samuel_dorilas.Login;
-import samuel_dorilas.models.Customer;
+import samuel_dorilas.services.CustomerDAOService;
 
 
 /**
@@ -55,20 +48,12 @@ public class AddCustomerController implements Initializable {
     @FXML private TextField custPhoneF;
     @FXML private TextField custCityF;
     @FXML private TextField custCountryF;
-    private int CID = 0;
-    private int addressId = 0;
-    private int cityId = 0;
-    private int countryId = 0;
-    private final Instant now = Instant.now();
-    private int active = 0;
-    private final Timestamp createDate =  Timestamp.from(now);
-    private final Timestamp lastUpdate =  Timestamp.from(now);
-    private final String createdBy = Login.getUserNameStored();
-    private final String lastUpdateBy = Login.getUserNameStored();
-    private final String address2 = "";
-    private Customer customer;
     private String activeString ="";
     private String inActiveString = "";
+    private int active = 0;
+
+    
+    CustomerDAOService cDAOS = new CustomerDAOService();
     
     private void setLanguage(){
         
@@ -108,50 +93,10 @@ public class AddCustomerController implements Initializable {
         if(activity.getText().equalsIgnoreCase(activeString)){
                 active = 1;
             }
-        try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-            Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-            
-            String join ="SELECT * FROM "
-                    + "customer JOIN address ON customer.addressId = address.addressId JOIN city ON address.cityId = city.cityId "
-                    + "JOIN country ON city.countryId = country.countryId";
-            ResultSet rs =  stmt.executeQuery(join);
-            
-            while(rs.next()){
-                if(rs.getInt("customerId") == CID){
-                    CID++;
-                }
-                if(rs.getInt("addressId") == addressId){
-                    addressId++;
-                }
-                if(rs.getInt("cityId") == cityId){
-                    cityId++;
-                }
-                if(rs.getInt("countryId") == countryId){
-                    countryId++;
-                }
-            }
-             
-            stmt.executeUpdate("INSERT INTO customer VALUES (" + "'" + CID + "', '" + 
-                    custNameF.getText() + "', '" + addressId + "', '" + active + "', '" + createDate + "', '" + 
-                    createdBy + "', '" + lastUpdate + "', '" + lastUpdateBy + "')");
-            
-            stmt.executeUpdate("INSERT INTO address VALUES (" + "'" + addressId + "', '" + custAddressF.getText() +
-                    "', '" + address2 + "', '" + cityId + "', '" + custPostalF.getText() + "', '" + custPhoneF.getText() + "', '" +
-                    createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdateBy + "')");
-            
-            stmt.executeUpdate("INSERT INTO city VALUES (" + "'" + cityId + "', '" + custCityF.getText() + "', '" +
-                    countryId + "', '" + createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdateBy + "')");
-            
-            stmt.executeUpdate("INSERT INTO country VALUES (" + "'" + countryId + "', '" + custCountryF.getText() + 
-                    "', '" + createDate + "', '" + createdBy + "', '" + lastUpdate + "', '" + lastUpdateBy + "')");
-            
-            
-        }catch (SQLException s){ s.printStackTrace();}
         
-        customer = new Customer(CID, custNameF.getText(), active, createDate, createdBy, lastUpdate, 
-                lastUpdateBy, custAddressF.getText(), addressId, custPostalF.getText(), custPhoneF.getText(), custCityF.getText(), 
-                cityId, custCountryF.getText(), countryId);
-         Customer.getCustList().add(customer);
+        cDAOS.addCustomer(active, custNameF.getText(), custAddressF.getText(), 
+        		custPostalF.getText(), custPhoneF.getText(), custCityF.getText(), custCountryF.getText());   
+
         
         ((Stage)(cancelBtn.getScene().getWindow())).close();
     }
@@ -176,4 +121,3 @@ public class AddCustomerController implements Initializable {
     } 
     
 }
-

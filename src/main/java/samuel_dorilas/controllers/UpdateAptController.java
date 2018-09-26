@@ -6,13 +6,7 @@
 package samuel_dorilas.controllers;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import samuel_dorilas.Login;
 import samuel_dorilas.models.Appointment;
+import samuel_dorilas.services.AppointmentDAOService;
 
 /**
  * FXML Controller class
@@ -76,13 +71,12 @@ public class UpdateAptController implements Initializable {
     private LocalTime endTimeData;
     private int AID;
     private int userID;
-    private final Instant now = Instant.now();
-    private final Timestamp aptLastUpdate =  Timestamp.from(now);
-    private final String aptLastUpdateBy = Login.getUserNameStored();
     private String alert7 = "";
     private String alert8 = "";
     
     private DateTimeFormatter formatter2;
+    
+    AppointmentDAOService aDAOS = new AppointmentDAOService();
     
     private void setLanguage(){
         
@@ -167,21 +161,8 @@ public class UpdateAptController implements Initializable {
                 
             }
             
-            try(Connection conn = DriverManager.getConnection(Login.getUrl(),Login.getUser(),Login.getPass());){
-                Statement stmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_SENSITIVE);
-             
-                
-            
-                stmt.executeUpdate("UPDATE appointment SET title =" + "'" + menuType.getText() + "', description ='" + descriptionF.getText() +
-                    "', location ='" + menuLocation.getText() + "', contact ='" + contactF.getText() + "', start ='" + startDateTime +
-                    "', end ='" + endDateTime + "', lastUpdate ='" + aptLastUpdate + "', lastUpdateBy ='" +
-                    aptLastUpdateBy + "' WHERE appointmentId =" + Appointment.getAptList().get(Appointment.getAptIndex()).getAptID());
-              
-            }catch(SQLException s){ s.printStackTrace(); ((Stage)(cancelBtn.getScene().getWindow())).close();}
-            Appointment.getAptList().get(Appointment.getAptIndex()).setDisplayed(descriptionF.getText(), menuLocation.getText(), 
-                contactF.getText(), menuType.getText(), startTimeData, startDateData, endTimeData,
-                aptLastUpdate, aptLastUpdateBy);
-            Appointment.getAptList().add(0, new Appointment()); Appointment.getAptList().remove(0);  
+            aDAOS.updateAppointment(menuType.getText(), descriptionF.getText(), menuLocation.getText(),
+            		contactF.getText(), startTimeData, startDateData, endTimeData, startDateTime, endDateTime, cancelBtn);
        
             ((Stage)(cancelBtn.getScene().getWindow())).close();
          
