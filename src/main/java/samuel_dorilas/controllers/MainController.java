@@ -390,32 +390,30 @@ public class MainController implements Initializable {
     formatter4 = DateTimeFormatter.ofPattern("MM/dd/yyyy", Login.getLOCALE());
     }   
 
+    private void manage(SingleSelectionModel<Tab> sM, Tab tab, NullSelection nullSelection) {
+    	tabPane.setSelectionModel(sM);
+        tabPane.getSelectionModel().select(tab);
+        tabPane.setSelectionModel(nullSelection); 
+    }
+    
     @FXML 
     private void manageCustomer(MouseEvent e){
-        tabPane.setSelectionModel(sM);
-        tabPane.getSelectionModel().select(tab1);
-        tabPane.setSelectionModel(new NullSelection()); 
+        manage(sM, tab1, new NullSelection());
     }
     
     @FXML 
     private void manageCalendar(MouseEvent e){
-        tabPane.setSelectionModel(sM);
-        tabPane.getSelectionModel().select(tab2);
-        tabPane.setSelectionModel(new NullSelection());
+    	manage(sM, tab2, new NullSelection());
     }
     
     @FXML 
     private void manageApt(MouseEvent e){
-        tabPane.setSelectionModel(sM);
-        tabPane.getSelectionModel().select(tab3);
-        tabPane.setSelectionModel(new NullSelection());
+    	manage(sM, tab3, new NullSelection());
     }
     
     @FXML 
     private void manageProfile(ActionEvent e){
-        tabPane.setSelectionModel(sM);
-        tabPane.getSelectionModel().select(tab4);
-        tabPane.setSelectionModel(new NullSelection());
+    	manage(sM, tab4, new NullSelection());
     }
     
     @FXML 
@@ -433,17 +431,21 @@ public class MainController implements Initializable {
         
     }
     
+    private void createStage(String resource) throws Exception{
+    	Parent detailsRoot = FXMLLoader.load(getClass().getResource(resource));
+        Stage detailsStage = new Stage();
+        Scene scene = new Scene(detailsRoot);
+        detailsStage.setScene(scene);
+        detailsStage.setResizable(false);
+        detailsStage.show();
+    }
+    
     @FXML 
     private void getDetails(MouseEvent m) throws Exception{
         if(!custTable.getSelectionModel().isEmpty()){
             Customer detail = new Customer( Customer.getCustList().get(custTable.getSelectionModel().getSelectedIndex()));
             Customer.getDetails().setText(detail.toString());
-            Parent detailsRoot = FXMLLoader.load(getClass().getResource("/fxml/Customer.fxml"));
-            Stage detailsStage = new Stage();
-            Scene scene = new Scene(detailsRoot);
-            detailsStage.setScene(scene);
-            detailsStage.setResizable(false);
-            detailsStage.show();
+            createStage("/fxml/Customer.fxml");
         }
     }
      
@@ -451,12 +453,7 @@ public class MainController implements Initializable {
     private void getAptDetails(MouseEvent m) throws Exception{
         if(!aptTable.getSelectionModel().isEmpty()){
             Appointment.getAptDetails().setText(aptTable.getSelectionModel().getSelectedItem().toString());
-            Parent detailsRoot = FXMLLoader.load(getClass().getResource("/fxml/Appointment.fxml"));
-            Stage detailsStage = new Stage();
-            Scene scene = new Scene(detailsRoot);
-            detailsStage.setScene(scene);
-            detailsStage.setResizable(false);
-            detailsStage.show();   
+            createStage("/fxml/Appointment.fxml");  
         }
     }
     
@@ -464,12 +461,7 @@ public class MainController implements Initializable {
     private void getCancelledAptDetails(MouseEvent m) throws Exception{
         if(!cancelTable.getSelectionModel().isEmpty()){
             Appointment.getAptDetails().setText(cancelTable.getSelectionModel().getSelectedItem().toString());
-            Parent detailsRoot = FXMLLoader.load(getClass().getResource("/fxml/Appointment.fxml"));
-            Stage detailsStage = new Stage();
-            Scene scene = new Scene(detailsRoot);
-            detailsStage.setScene(scene);
-            detailsStage.setResizable(false);
-            detailsStage.show();   
+            createStage("/fxml/Appointment.fxml");   
         }
     }
     
@@ -477,12 +469,7 @@ public class MainController implements Initializable {
     private void getCheckedInAptDetails(MouseEvent m) throws Exception{
         if(!inTable.getSelectionModel().isEmpty()){
             Appointment.getAptDetails().setText(inTable.getSelectionModel().getSelectedItem().toString());
-            Parent detailsRoot = FXMLLoader.load(getClass().getResource("/fxml/Appointment.fxml"));
-            Stage detailsStage = new Stage();
-            Scene scene = new Scene(detailsRoot);
-            detailsStage.setScene(scene);
-            detailsStage.setResizable(false);
-            detailsStage.show();   
+            createStage("/fxml/Appointment.fxml");    
         }
     }
     
@@ -490,12 +477,7 @@ public class MainController implements Initializable {
     private void getAbsentAptDetails(MouseEvent m) throws Exception{
         if(!absentTable.getSelectionModel().isEmpty()){
             Appointment.getAptDetails().setText(absentTable.getSelectionModel().getSelectedItem().toString());
-            Parent detailsRoot = FXMLLoader.load(getClass().getResource("/fxml/Appointment.fxml"));
-            Stage detailsStage = new Stage();
-            Scene scene = new Scene(detailsRoot);
-            detailsStage.setScene(scene);
-            detailsStage.setResizable(false);
-            detailsStage.show();   
+            createStage("/fxml/Appointment.fxml");   
         }
     }
     @FXML 
@@ -515,8 +497,7 @@ public class MainController implements Initializable {
      
     @FXML 
     private void searchCustomer( ActionEvent event){
-        for (
-                Customer c:  Customer.getCustList()){
+        for (Customer c:  Customer.getCustList()){
             if (Integer.toString(c.getCustID()).equals(searchField.getText())){
                 custTable.getSelectionModel().select(Customer.getCustList().indexOf(c));
                 searchField.clear();
@@ -566,45 +547,19 @@ public class MainController implements Initializable {
      
     @FXML 
     private void addCustomer(MouseEvent m) throws Exception{
-         
-        Parent addRoot = FXMLLoader.load(getClass().getResource("/fxml/AddCustomer.fxml"));
-        Stage addStage = new Stage();
-        Scene scene = new Scene(addRoot);
-        addStage.setScene(scene);
-        addStage.setResizable(false);
-        addStage.show();
-            
+        createStage("/fxml/AddCustomer.fxml");     
     }
      
     @FXML 
     private void createAppointment(MouseEvent m) throws Exception{
-         
-        Parent addRoot = FXMLLoader.load(getClass().getResource("/fxml/CreateAppointment.fxml"));
-        Stage addStage = new Stage();
-        Scene scene = new Scene(addRoot);
-        addStage.setScene(scene);
-        addStage.setResizable(false);
-        addStage.show();
-            
+    	createStage("/fxml/CreateAppointment.fxml");
     }
      
     @FXML 
     private void modifyCustomer(MouseEvent m) throws Exception{
         if(!custTable.getSelectionModel().isEmpty()){
-         /*
-            Customer.custIndex = custTable.getSelectionModel().getSelectedItems().indexOf(
-                    custTable.getSelectionModel().getSelectedItem());
-         
-            I am not sure why but the above code does not work properly 
-            even though it is a more specific version of the one below
-         */
             Customer.setCustIndex(custTable.getSelectionModel().getSelectedIndex());
-            Parent addRoot = FXMLLoader.load(getClass().getResource("/fxml/ModCustomer.fxml"));
-            Stage addStage = new Stage();
-            Scene scene = new Scene(addRoot);
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.show();
+            createStage("/fxml/ModCustomer.fxml");
         }
             
     }
@@ -613,12 +568,7 @@ public class MainController implements Initializable {
     private void updateAppointment(MouseEvent m) throws Exception{
         if(!aptTable.getSelectionModel().isEmpty()){ 
             Appointment.setAptIndex(aptTable.getSelectionModel().getSelectedIndex());
-            Parent addRoot = FXMLLoader.load(getClass().getResource("/fxml/UpdateApt.fxml"));
-            Stage addStage = new Stage();
-            Scene scene = new Scene(addRoot);
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.show();
+            createStage("/fxml/UpdateApt.fxml");
         }  
     }
      
@@ -631,10 +581,6 @@ public class MainController implements Initializable {
     private void removeAppointment(MouseEvent m){
        aDAOS.removeAppointment(aptTable, alert5);
     }
-    
- 
-    
-
     
     private void setCalendarMonth(){
         calendarMonth.setText(currentDate.getMonth().getDisplayName(TextStyle.FULL, Login.getLOCALE()) + " " + currentDate.getYear()); 
